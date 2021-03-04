@@ -1,0 +1,28 @@
+{% extends 'Phone/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="background-color: #CCFFFF">
+    <div class="row">
+        <div class="col-8">
+            <div class="row mt-4">
+                <div class="col-6">
+                    <p>Đăng tải lúc: {{object.time_publish}}</p>
+                </div>
+                <div class="col-6">
+                    <p>Cập nhật lúc: {{object.time_update}}</p>
+                </div>
+            </div>
+            <div style="background-color: #ffccee; padding: 2px 10px;">
+                <h2>{{object.name}}</h2>
+                <p>{{object.description}}</p>
+            </div>
+        </div>
+        <div class="col-4 mt-4">
+            <img src="{{ object.image.url }}" alt="Generic placeholder image">
+            <h5 style="color: red;">Giá: {{ object.price }}</h5>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'Phone/base.html' %}
+{% load param_replace %}
+{% load static %}
+
+{% block content %}
+{% for item in object_list %}
+<div class="container">
+    <div class="row">
+        <div class="media mt-4 border bg-secondary w-100 col-11">
+            <a href="{% url 'Phone:phone_view' item.id %}">
+                <img alt="Generic placeholder image" class="mr-3" src="{{ item.image.url }}"
+                 style="width: 150px;">
+            </a>
+            <div class="media-body">
+                <h5 class="mt-0">{{item.name}}</h5>
+                {{item.description}}
+            </div>
+        </div>
+
+        <div class="col-1 mt-4">
+            <a href="{% url 'Phone:phone_edit' item.id %}">
+                <svg class="bi bi-pencil-square" fill="currentColor" height="1em" viewBox="0 0 16 16" width="1em"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                          fill-rule="evenodd"/>
+                </svg>
+            </a>
+            <br>
+            <a href="{% url 'Phone:phone_delete' item.id %}">
+                <svg class="bi bi-trash" fill="currentColor" height="1em" viewBox="0 0 16 16" width="1em"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                          fill-rule="evenodd"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="pagination">
+    <div class="container">
+        <h5>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pull-right">
+
+                    {% if page_obj.has_previous %}
+                    <li><a href="?{% param_replace page=page_obj.previous_page_number %}">&nbsp;&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&nbsp;&laquo;</span></li>
+                    {% endif %}
+
+                    {% if page_obj.number > 5 %}
+                    <li><a href="?{% param_replace page=1 %}"><i>&nbsp;1</i></a></li>
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if i > page_obj.number|add:"-5" %}
+                        {% if i < page_obj.number|add:"5" %}
+                            {% if page_obj.number == i %}
+                    <li class="active"><span>&nbsp;{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                    <li><a href="?{% param_replace page=i %}">&nbsp;{{ i }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.number < page_obj.paginator.num_pages|add:"-5" %}
+                    <li><a href="?{% param_replace page=page_obj.paginator.num_pages %}"><i>&nbsp;{{ page_obj.paginator.num_pages }}</i></a></li>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                    <li><a href="?{% param_replace page=page_obj.next_page_number %}">&nbsp; &raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&nbsp;&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </h5>
+    </div>
+</div>
+{% endblock %}

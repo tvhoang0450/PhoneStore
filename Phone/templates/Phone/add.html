@@ -1,0 +1,10 @@
+{% extends 'Phone/base.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="{% url 'Phone:add'%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ f.as_p}}
+        <input type="submit" value="Đăng">
+    </form>
+{% endblock %}

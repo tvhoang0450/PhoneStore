@@ -1,0 +1,10 @@
+{% extends 'Phone/base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Phone Delete</h1>
+    <form method="post">{% csrf_token %}
+        Bạn có muốn xóa "{{ object }}" ?
+        <input type="submit" value="Xóa" />
+    </form>
+{% endblock %}
